@@ -86,10 +86,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "PDFCourse — Turn PDFs into AI-powered courses" },
       {
         property: "og:description",
-        content: "Upload a PDF, learn interactively with AI-generated lessons, quizzes, and a tutor chatbot.",
+        content: "Upload any PDF and instantly get a structured course with chapters, lessons, quizzes, and an AI learning companion.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "PDFCourse — Turn PDFs into AI-powered courses" },
+      { name: "twitter:description", content: "Upload any PDF and instantly get a structured course with chapters, lessons, quizzes, and an AI learning companion." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/94fee314-2176-4cda-8ef0-d2c719dbef99/id-preview-b489f918--e0ae536c-9119-4c69-8b74-e946242be145.lovable.app-1784129001094.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/94fee314-2176-4cda-8ef0-d2c719dbef99/id-preview-b489f918--e0ae536c-9119-4c69-8b74-e946242be145.lovable.app-1784129001094.png" },
     ],
     links: [
       {
