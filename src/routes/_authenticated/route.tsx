@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Sparkles, LayoutDashboard, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,11 @@ export const Route = createFileRoute("/_authenticated")({
 
 function AuthedShell() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   async function signOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
     await supabase.auth.signOut();
     navigate({ to: "/auth", replace: true });
   }
