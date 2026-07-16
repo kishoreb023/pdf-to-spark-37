@@ -20,9 +20,15 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard" });
+    let mounted = true;
+
+    supabase.auth.getUser().then(({ data }) => {
+      if (mounted && data.user) navigate({ to: "/dashboard", replace: true });
     });
+
+    return () => {
+      mounted = false;
+    };
   }, [navigate]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -30,18 +36,23 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin },
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
         });
         if (error) throw error;
-        toast.success("Account created! Signing you in…");
+        if (!data.session) {
+          toast.success("Account created. Check your email to confirm your account, then sign in.");
+          setMode("signin");
+          return;
+        }
+        toast.success("Account created. Redirecting to your dashboard…");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
       }
-      navigate({ to: "/dashboard" });
+      navigate({ to: "/dashboard", replace: true });
     } catch (err) {
       toast.error((err as Error).message);
     } finally {
