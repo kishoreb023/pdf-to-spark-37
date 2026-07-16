@@ -49,19 +49,6 @@ function AuthPage() {
     }
   }
 
-  async function handleGoogle() {
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: `${window.location.origin}/dashboard` },
-      });
-      if (error) throw error;
-    } catch (err) {
-      toast.error((err as Error).message);
-      setLoading(false);
-    }
-  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-background to-muted/30 px-4">
@@ -76,13 +63,6 @@ function AuthPage() {
           {mode === "signin" ? "Sign in to continue learning." : "Start turning PDFs into courses."}
         </p>
 
-        <Button variant="outline" className="mt-6 w-full" onClick={handleGoogle} disabled={loading}>
-          Continue with Google
-        </Button>
-
-        <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-          <div className="h-px flex-1 bg-border" /> OR <div className="h-px flex-1 bg-border" />
-        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
