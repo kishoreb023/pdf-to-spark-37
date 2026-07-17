@@ -33,6 +33,13 @@ function AuthPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    console.log("[auth] submit", { mode, email });
+    if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) {
+      const msg = "Supabase env vars are missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in Vercel and redeploy.";
+      console.error("[auth]", msg);
+      toast.error(msg);
+      return;
+    }
     setLoading(true);
     try {
       if (mode === "signup") {
@@ -54,7 +61,8 @@ function AuthPage() {
       }
       navigate({ to: "/dashboard", replace: true });
     } catch (err) {
-      toast.error((err as Error).message);
+      console.error("[auth] error", err);
+      toast.error((err as Error).message || "Authentication failed");
     } finally {
       setLoading(false);
     }
